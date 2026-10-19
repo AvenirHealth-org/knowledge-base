@@ -1,40 +1,59 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Knowledge Base
+description: Developer-facing documentation for Avenir Health.
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Developer-facing documentation for Avenir Health.
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/AvenirHealth.png
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Start here
+      link: /general/start-here/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+    - text: Browse projects
+      link: /projects/
+      icon: open-book
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+import ProjectCards from '../../components/ProjectCards.astro';
 
-## Next steps
+## Working at Avenir
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+Team conventions and how-tos that apply across projects.
+
+<CardGrid>
+	<LinkCard
+		title="Start here"
+		description="How these docs are organised and how to contribute to them."
+		href="/general/start-here/"
+	/>
+	<LinkCard
+		title="Alerts"
+		description="What our alerts are for, how they are set up, and what to do when one fires."
+		href="/general/alerts/"
+	/>
+	<LinkCard
+		title="Pull requests"
+		description="How and when we use pull requests to ship work."
+		href="/general/prs/"
+	/>
+</CardGrid>
+
+## Projects
+
+The modelling tools and services we build and maintain.
+
+<ProjectCards />
+
+## Find the code
+
+Most of our work lives on GitHub, under [hivtools](https://github.com/hivtools)
+and [mrc-ide](https://github.com/mrc-ide).
+
+<CardGrid>
+	<LinkCard title="hint" description="Naomi frontend and Kotlin backend" href="https://github.com/hivtools/hint" />
+	<LinkCard title="hintr" description="Naomi R backend and async job running" href="https://github.com/hivtools/hintr" />
+	<LinkCard title="naomi" description="The Naomi R model" href="https://github.com/mrc-ide/naomi/" />
+	<LinkCard title="leapfrog" description="Multistate population projection model" href="https://github.com/hivtools/leapfrog" />
 </CardGrid>
