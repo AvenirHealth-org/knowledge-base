@@ -15,6 +15,8 @@ const projectGroups = readdirSync('./src/content/docs/projects', { withFileTypes
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://avenirhealth-org.github.io',
+	base: '/knowledge-base',
 	integrations: [
 		starlight({
 			title: 'Avenir Health Knowledge Base',
