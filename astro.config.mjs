@@ -2,6 +2,7 @@
 import { readdirSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid'
 
 // One sidebar group per folder in src/content/docs/projects, so a new project
 // only needs a new folder.
@@ -20,6 +21,8 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Avenir Health Knowledge Base',
+			customCss: ['./src/styles/custom.css'],
+			head: [{ tag: 'script', attrs: { src: '/knowledge-base/expand-diagrams.js', defer: true } }],
 			logo: {
 				src: './src/assets/AvenirHealth.png',
 				replacesTitle: true,
@@ -36,5 +39,9 @@ export default defineConfig({
 				},
 			],
 		}),
+		mermaid({
+			theme: 'base',
+			autoTheme: true
+		})
 	],
 });
