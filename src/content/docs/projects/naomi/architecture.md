@@ -105,4 +105,4 @@ Not in the diagram, because they are not part of the running request path:
 
 ## Where to go next
 
-- **What each endpoint does** and how a user action flows through every layer: [endpoint-flows.md](endpoint-flows.md).
+- **What each endpoint does** and how a user action flows through every layer: [endpoint flows](../endpoint-flows).
