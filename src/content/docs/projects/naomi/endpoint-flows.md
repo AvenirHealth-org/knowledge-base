@@ -3,7 +3,7 @@ title: Endpoint flows
 description: Flow of naomi endpoints
 ---
 
-How every endpoint in hint's Kotlin API is used: what the user does in the Vue app, which hint endpoint it hits, what hint then does with Postgres, the file shares and hintr (R), and where Redis comes in.
+How every endpoint in hint's Kotlin API is used: what the user does in the Vue app, which hint endpoint it hits, what hint then does with Postgres, the file shares and hintr (R), and where Redis comes in. For a general overview of architecture see [architecture](../architecture).
 
 Written against `main` on 2026-10-19. Frontend callers were found by searching `src/app/static/src/app`.
 
