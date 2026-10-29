@@ -19,13 +19,12 @@ const projectGroups = readdirSync('./src/content/docs/projects', { withFileTypes
 // https://astro.build/config
 export default defineConfig({
   site: 'https://avenirhealth-org.github.io',
-  base: '/knowledge-base',
 
   integrations: [
       starlight({
           title: 'Avenir Health Knowledge Base',
           customCss: ['./src/styles/custom.css'],
-          head: [{ tag: 'script', attrs: { src: '/knowledge-base/expand-diagrams.js', defer: true } }],
+          head: [{ tag: 'script', attrs: { src: '/expand-diagrams.js', defer: true } }],
           logo: {
               src: './src/assets/AvenirHealth.png',
               replacesTitle: true,
@@ -49,4 +48,20 @@ export default defineConfig({
 	],
 
   adapter: cloudflare(),
+
+  vite: {
+    plugins: [
+      {
+        // The worker build resolves satteri's `browser` entry, which imports its
+        // wasm binding. That package is cpu-restricted so npm never installs it
+        // on x64. Nothing in the worker uses satteri at runtime (markdown is
+        // compiled at build time), so leave the import external.
+        name: 'externalize-satteri-wasm',
+        enforce: 'pre',
+        resolveId(id) {
+          if (id === '@bruits/satteri-wasm32-wasi') return { id, external: true };
+        },
+      },
+    ],
+  },
 });
