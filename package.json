@@ -7,13 +7,18 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^14.4.3",
     "@astrojs/starlight": "^0.42.6",
     "astro": "^7.2.10",
     "astro-mermaid": "^2.1.0",
     "mermaid": "^11.17.2",
     "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "wrangler": "^4.155.0"
   }
 }
