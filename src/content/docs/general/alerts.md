@@ -29,17 +29,60 @@ When an alert clears, a ✅ **Resolved** message is posted. One-off events, such
 
 Budgets send a ℹ️ **Spend note** when spend reaches an early threshold, and an 🚨 **Over budget** message when it reaches the monthly budget. Azure cost data lags by up to a day, so these arrive after the money has been spent.
 
-## How they are set up
+## Architecture
 
-```
-  Alert rules, per project                   Shared, in Avenir Azure General
-  ┌──────────────────────┐                   ┌───────────────────────┐
-  │ Naomi subscription   │──┐    ┌─ Sev0-1 ─>│ Critical action group │──┐
-  └──────────────────────┘  │    │           └───────────────────────┘  │   ┌───────────┐   ┌───────┐
-                            ├────┤                                      ├──>│ Logic app │──>│ Slack │
-  ┌──────────────────────┐  │    │           ┌──────────────────────┐   │   └───────────┘   └───────┘
-  │ Tasks subscription   │──┘    └─ Sev2-4 ─>│ Info action group    │───┘
-  └──────────────────────┘                   └──────────────────────┘
+```mermaid
+---
+config:
+  flowchart:
+    wrappingWidth: 400
+  layout: elk
+  elk:
+    nodePlacementStrategy: NETWORK_SIMPLEX
+  theme: redux
+  themeCSS: |
+    .edgeLabel, .edgeLabel p, .labelBkg { background-color: var(--sl-color-bg) !important; }
+    .edgeLabel rect { fill: var(--sl-color-bg) !important; }
+---
+flowchart LR
+ subgraph R["Alert rules"]
+        MA["Metric alerts"]
+        LA["Log alerts"]
+  end
+ subgraph P["Per project subscription (Naomi, TaskAPI)"]
+        R
+        J["J"]
+        B["Budget<br>(Cost alerts)"]
+  end
+ subgraph AG["Action groups"]
+        CAG["Critical<br>av-slack-critical-ag"]
+        IAG["Info<br>av-slack-info-ag"]
+  end
+ subgraph G["Avenir Azure General"]
+        AV["Availability checks"]
+        AG
+        L["Logic app"]
+  end
+    MA --- J
+    LA --- J
+    AV -- 2+ locations fail / SSL &lt; 14d --> CAG
+    J -- "Sev0-1" --> CAG
+    B -- budgetAmount --> CAG
+    J -- "Sev2-4" --> IAG
+    B -- budgetNoteAmount --> IAG
+    CAG --> L
+    IAG --> L
+    L --> S["Slack channel<br>(#alerts)"]
+
+    J@{ shape: f-circ}
+     CAG:::critical
+     IAG:::info
+    classDef critical fill:#fdecec,stroke:#e06666
+    classDef info fill:#fff8e1,stroke:#e6b800
+    style P fill:#e8f1fb,stroke:#6c9bd2
+    style R fill:#bcd5f0,stroke:#6c9bd2
+    style G fill:#eaf6ec,stroke:#6aa874
+    style AG fill:#bfe3c7,stroke:#6aa874
 ```
 
 - A shared deployment in the Avenir Azure General subscription (`AzureAlerts-RG`) holds a logic app that formats alerts and posts them to Slack, two action groups that call it, and the availability checks.
