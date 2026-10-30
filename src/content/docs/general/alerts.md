@@ -33,12 +33,12 @@ Budgets send a ℹ️ **Spend note** when spend reaches an early threshold, and 
 
 ```
   Alert rules, per project                   Shared, in Avenir Azure General
-  ┌──────────────────────┐                   ┌──────────────────────┐
-  │ Naomi subscription   │──┐    ┌─ Sev0-1 ─>│ av-slack-critical-ag │──┐
-  └──────────────────────┘  │    │           └──────────────────────┘  │   ┌───────────┐   ┌───────┐
-                            ├────┤                                     ├──>│ Logic app │──>│ Slack │
-  ┌──────────────────────┐  │    │           ┌──────────────────────┐  │   └───────────┘   └───────┘
-  │ Tasks subscription   │──┘    └─ Sev2-4 ─>│ av-slack-info-ag     │──┘
+  ┌──────────────────────┐                   ┌───────────────────────┐
+  │ Naomi subscription   │──┐    ┌─ Sev0-1 ─>│ Critical action group │──┐
+  └──────────────────────┘  │    │           └───────────────────────┘  │   ┌───────────┐   ┌───────┐
+                            ├────┤                                      ├──>│ Logic app │──>│ Slack │
+  ┌──────────────────────┐  │    │           ┌──────────────────────┐   │   └───────────┘   └───────┘
+  │ Tasks subscription   │──┘    └─ Sev2-4 ─>│ Info action group    │───┘
   └──────────────────────┘                   └──────────────────────┘
 ```
 
